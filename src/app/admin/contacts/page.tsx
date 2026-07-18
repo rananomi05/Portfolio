@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import StatusBadge from "../dashboard/page";
+import StatusBadge from "@/components/StatusBadge";
 
 interface Contact {
   id: string;
@@ -53,8 +53,8 @@ export default function ContactsPage() {
             key={f}
             onClick={() => setFilter(f)}
             className={`rounded-full px-4 py-1.5 font-mono text-xs uppercase transition-colors ${filter === f
-                ? "bg-signal text-ink"
-                : "border border-white/10 text-muted hover:text-paper"
+              ? "bg-signal text-ink"
+              : "border border-white/10 text-muted hover:text-paper"
               }`}
           >
             {f}

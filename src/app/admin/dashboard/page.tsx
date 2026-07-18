@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import StatusBadge from "@/components/StatusBadge";
 
 interface RecentContact {
   id: string;
@@ -131,25 +132,5 @@ export default function DashboardPage() {
         </div>
       </div>
     </div>
-  );
-}
-
-function StatusBadge({
-  status,
-}: {
-  status: "PENDING" | "DONE" | "RESOLVED";
-}) {
-  const styles = {
-    PENDING: "bg-signal/10 text-signal border-signal/30",
-    DONE: "bg-cyan/10 text-cyan border-cyan/30",
-    RESOLVED: "bg-okgreen/10 text-okgreen border-okgreen/30",
-  } as const;
-
-  return (
-    <span
-      className={`rounded-full border px-2.5 py-1 font-mono text-[10px] uppercase ${styles[status]}`}
-    >
-      {status}
-    </span>
   );
 }
