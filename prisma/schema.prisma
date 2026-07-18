@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+
+}
+
+// Linked to a Supabase Auth user. Only one row should exist (the seeded Admin).
+model Profile {
+  id         String   @id @default(uuid())
+  authUserId String   @unique @map("auth_user_id")
+  name       String
+  email      String   @unique
+  role       String   @default("admin")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("profiles")
+}
+
+enum ContactStatus {
+  PENDING
+  DONE
+  RESOLVED
+}
+
+model Contact {
+  id        String        @id @default(uuid())
+  name      String
+  email     String
+  subject   String?
+  message   String
+  status    ContactStatus @default(PENDING)
+  createdAt DateTime      @default(now()) @map("created_at")
+  updatedAt DateTime      @updatedAt @map("updated_at")
+
+  @@map("contacts")
+  @@index([status])
+  @@index([createdAt])
+}
+
+// Tracks login attempts per IP for rate limiting the admin login route.
+model LoginAttempt {
+  id            String    @id @default(uuid())
+  ipAddress     String    @unique @map("ip_address")
+  attempts      Int       @default(0)
+  lastAttemptAt DateTime  @default(now()) @map("last_attempt_at")
+  blockedUntil  DateTime? @map("blocked_until")
+
+  @@map("login_attempts")
+}
